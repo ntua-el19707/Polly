@@ -1,9 +1,13 @@
 const sequelize = require('../../utils/database');
 const  initModels = require("../../models/init-models");
+const { ValidationError } = require('sequelize');
+const { questionarieFormat, getqid } = require('../../utils/format');
+
 const models = initModels(sequelize);
 
 exports.create = (req,res,next) =>{
     console.log(req.body);
+    
     const pid = req.body.questionnaireID;
     const pTitle = req.body.questionnaireTitle;
     const keywords = req.body.keywords;
@@ -147,3 +151,62 @@ exports.create = (req,res,next) =>{
         res.json({msg:'ok'})
     })
 } 
+exports.update = (req,res,next) =>{
+    //Here  i am gone  to implement a a  put methods
+    //json eisdoxi
+    const id = req.params.id ; 
+    const Creator =  req.params.Creator ; 
+    const old = req.body.old;
+    let counter = 0 ;
+    let size = old.length ;
+    if(questionarieFormat(old)){
+    let update_all_questions = new Promise((resolve,reject) =>{
+        old.forEach(el=>{
+           models.Questions.update({qtext:el.qtext,sequence:getqid(el.qID),qtype:el.type, required:get(el.required),poll_id:id},{where:{
+question_id:el.actual_id
+        }}).then(() =>{
+            ++counter
+            if(size === counter){
+                resolve();
+            }
+        }).catch(err =>{
+            console.log(err)
+            reject();
+        })
+        })
+        //do options;
+    
+    });
+    Promise.all([update_all_questions]).then(()=>{
+        res.json({msg:'ok'});1
+    })
+    }else{
+        res.status(400).json({msg:"There is not a corecct format to your json file for existing Questions"
+     , validFormatMsg:`[{
+            "qID": "Q{Number<=99}",
+            "qtext": "{question}",
+            "required": "FALSE" | "TRUE",
+            "type": "profile" | "question",
+            "options": [
+                    {
+                     "optID": "Q{Number<=99}TXT",
+                     "opttxt": "<open string>",
+                     "nextqID": "Q{Number}"
+                    },{
+                     "optID": "Q{Number<=99}A{Number<=9}",
+                     "opttxt": "<open string>",
+                     "nextqID": "Q{Number<=99}"
+                    } ]},
+        {same},...]
+        `
+})
+    }
+ 
+    
+}
+function get(type){
+    if(type === 'FALSE'){
+        return false;
+    }
+    return true ;
+}
