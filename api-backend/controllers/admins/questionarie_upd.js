@@ -1,7 +1,7 @@
 const sequelize = require('../../utils/database');
 const  initModels = require("../../models/init-models");
 const { ValidationError } = require('sequelize');
-const { questionarieFormat, getqid } = require('../../utils/format');
+const { questionarieFormat, getqid, getaSequence } = require('../../utils/format');
 
 const models = initModels(sequelize);
 
@@ -88,7 +88,7 @@ exports.create = (req,res,next) =>{
                       //  console.log(o.nextqID)
                        if(qi.qID === o.nextqID ){
                            t = qi.actual_id
-                           console.log(t + "depented ")
+                     //      console.log(t + "depented ")
                            resolve()
                        }else{
                            ++i
@@ -158,12 +158,12 @@ exports.update = (req,res,next) =>{
     const Creator =  req.params.Creator ; 
     const old = req.body.old;
     let counter = 0 ;
-    let size = old.length ;
+    const size = old.length ;
     if(questionarieFormat(old)){
     let update_all_questions = new Promise((resolve,reject) =>{
         old.forEach(el=>{
            models.Questions.update({qtext:el.qtext,sequence:getqid(el.qID),qtype:el.type, required:get(el.required),poll_id:id},{where:{
-question_id:el.actual_id
+            question_id:el.actual_id
         }}).then(() =>{
             ++counter
             if(size === counter){
@@ -174,11 +174,50 @@ question_id:el.actual_id
             reject();
         })
         })
-        //do options;
-    
     });
-    Promise.all([update_all_questions]).then(()=>{
-        res.json({msg:'ok'});1
+        let counter2 = 0 ; 
+      
+        //do options;
+        let updateAllQuestionsOptions = new Promise((resolve,reject)=>{
+            old.forEach(el =>{
+                if(el.options != []){
+                let updateoptions = new Promise((resolve,reject)=>{
+                    let counter3 =  0 ; 
+                    const size2 =  el.options.length ;
+                    el.options.forEach(o =>{
+                    models.answers.update({ sequence:getaSequence(o.optID),atext:o.opttxt,depented_qid:o.dpented/*,question_id:o=el.actual_id*/},{where:{answer_id:o.answer_id}}).then(
+                        () =>{
+                            ++counter3 ;
+                            if(counter3 === size2){
+                                resolve();
+                            }
+                        }
+                    ).catch(
+                        (err)=>{
+                            console.log(err);
+                            reject();
+                        }
+                    )
+            
+                })
+                })
+                Promise.all([updateoptions]).then(() =>{
+                    ++counter2;
+                    if(counter2 === size){
+                        resolve();
+                    }
+                });}else{
+                    ++counter2 ; 
+                    if(counter2 === size){
+                        resolve();
+                    }
+                }
+            })
+        })
+    
+    
+    Promise.all([update_all_questions,updateAllQuestionsOptions]).then(()=>{
+        res.json({msg:'ok'});
     })
     }else{
         res.status(400).json({msg:"There is not a corecct format to your json file for existing Questions"
