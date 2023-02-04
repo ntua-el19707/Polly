@@ -5,7 +5,8 @@ const path = require('path');
 
 const pathToKey = path.join(__dirname, '../config/keys', 'private.pem');
 const PRIV_KEY = fs.readFileSync(pathToKey, 'utf8');
-
+const pathToKey2 = path.join(__dirname, '../config/keys', 'privateforgotJWT.pem');
+const PRIV_KEY2 = fs.readFileSync(pathToKey2, 'utf8');
 const pathToPKey = path.join(__dirname, '../config/keys', 'public.pem');
 const Pub_KEY = fs.readFileSync(pathToPKey, 'utf8');
 exports.genpass = (pass) =>{
@@ -49,3 +50,24 @@ exports.issueJWT = (user) =>{
       expires: expiresIn
     }
   }
+
+  exports.issueJWTForgot = (_userid,expires,key) =>{
+    const _id = _userid;
+  
+    const expiresIn = expires;
+  
+    const payload = {
+      sub: _id,
+      iat: Date.now()
+    };
+  
+    const signedToken = jsonwebtoken.sign(payload, PRIV_KEY2, { expiresIn: expiresIn, algorithm: 'RS512' });
+  
+    return {
+      token: /*`${key} `*/ signedToken,
+      expires: expiresIn
+    }
+  }
+  
+  
+  

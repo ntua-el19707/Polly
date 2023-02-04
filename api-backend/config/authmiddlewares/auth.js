@@ -8,8 +8,11 @@ const PRIV_KEY = fs.readFileSync(pathToKey, 'utf8');
 
 const pathToPKey = path.join(__dirname, '../keys', 'public.pem');
 const Pub_KEY = fs.readFileSync(pathToPKey, 'utf8');
+const pathToPKey2 = path.join(__dirname, '../keys', 'publicforgotJWT.pem');
+const Pub_KEY2 = fs.readFileSync(pathToPKey2, 'utf8');
 exports.authuser= (req,res,next) =>{
-    //console.log(req.headers)
+    console.log(req.body)
+  
     //let target_target_token = req.headers.authorization
    // console.log(target_target_token)
     try{
@@ -23,7 +26,11 @@ exports.authuser= (req,res,next) =>{
       const  verificattion = jsonwebtoken.verify(token_parts[1],Pub_KEY,{algorithms:['RS256']})
      // console.log(verificattion)}
      req.jwt = verificattion;
-     next();}
+    
+     if(req.jwt.iat < req.jwt.exp){
+     next();}else{
+      res.status(401).json({success:false,msg:'tokken expired'})
+     }}
       catch(err){
         //console.log(err)
         res.status(401).json({success:false,msg:'You are anothorized!'})
@@ -94,3 +101,67 @@ exports.Criteria = (req,res,next) => {
    //:To do implement if  poll requires Criteria to view 
    next();
 } 
+exports.MineSurvey = (req,res,next) =>{
+  let found = false;
+  const id = req.params.id ; 
+  const Creator = req.body.author; 
+  if(id && Creator){
+    //to Do user can try to authentivcate;
+    let fetchapoll = new Promise((resolve,reject)=>{
+        let poll;
+        models.Polls.findByPk(id).then((mypoll)=>{
+            poll = mypoll.dataValues ;
+            found = true; 
+            resolve();
+        }).catch(err=>{
+            res.status(400).json({err:err});
+            reject();
+        })
+    })
+    Promise.all[fetchapoll].then(()=>{
+      if(found){
+            if(poll.email === Creator ){
+              next();
+            }else{
+              res.status(403).json({err:"you have not rigth to edit this Survey" })
+            }
+        }
+    })
+  }
+  else{
+    res.status(400).json({msg:"You are rquest has not a valid Format (id(poll_id):url param ,Creator(an email): body )"})
+  }
+}
+
+exports.authuserForForgotpass= (req,res,next) =>{
+  console.log(req.body)
+
+  //let target_target_token = req.headers.authorization
+ // console.log(target_target_token)
+  try{
+  //  console.log(req.headers)
+  const token_parts = req.body.authorization;
+  //console.log(token_parts[0])
+   if(token_parts.match(/\S+\.\S+\.\S+/) !== null){
+    //patern match 
+    
+    try{
+    const  verificattion = jsonwebtoken.verify(token_parts,Pub_KEY2,{algorithms:['RS512']})
+   // console.log(verificattion)}
+   req.jwt = verificattion;
+  
+   if(req.jwt.iat < req.jwt.exp){
+   next();}else{
+    res.status(401).json({success:false,msg:'tokken expired'})
+   }}
+    catch(err){
+      //console.log(err)
+      res.status(401).json({success:false,msg:'You are anothorized!'})
+    }
+  }else{
+    res.status(401).json({success:false,msg:'You are anothoprized!'})
+  }
+}catch(err){
+  res.status(401).json({success:false,msg:'You are anothoprized!'})
+}
+}
