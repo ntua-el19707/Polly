@@ -19,20 +19,30 @@ let res = true;
   return res;
 }
 exports.validateRow = (row) =>{
-    if(row.qID && row.qtext && row.required && row.type && row.options){
+
+    if(row.qID && row.qtext && row.required && row.type && (row.options || (row.oldop && row.newop))){
         return true; 
     }
     return false;
 }
+exports.valdateFromPut = (spec) =>{
+    if(spec === [] ){
+        true ;
+    }
+    
+    return  this.validateOptions(spec)
+    
+}
 exports.validateRowspec = (row)=>{
     if(this.validateqId(row.qID)){
-        if((row.required === 'FALSE' || row.required === 'TRUE') && (row.type === "profile"||row.type==="question") &&(this.validateOptions(row.options))){
+        if((row.required === 'FALSE' || row.required === 'TRUE') && (row.type === "profile"||row.type==="question") &&(this.validateOptions(row.options) || (this.valdateFromPut(row.newop) && this.valdateFromPut(row.oldop)))){
             return true;
         }
     }
     return false; 
 }
 exports.validateAid = (aid)=>{
+    //console.log(aid)
     let split = aid.split('Q');
     if(split[1]){
         if(aid[0] === 'Q'){
@@ -75,10 +85,12 @@ exports.getqid = (qid) =>{
     if(this.validateqId(qid)){
         return (qid.split('Q'))[1];
     }else{
-        return '-1';
+        return null;
     }
 }
 exports.validateqId  = (qID) =>{
+    console.log(qID)
+
     let split = qID.split('Q');
     if(split[1]){
     //console.log(isNaN(split[1]));
@@ -89,6 +101,26 @@ exports.validateqId  = (qID) =>{
     }
      }
      return false;
+}
+exports.getaSequence = (aId) =>{
+    
+    if(this.validateAid(aId )){
+        if(aId.includes('TXT')){
+            return 1
+        }
+        return ((aId.split('Q'))[1].split('A'))[1];
+    }
+    return '0'//in false
+}
+exports.questionarieIdCheck = qid =>{
+    if(!qid){
+        return false; 
+    }    
+    const qidList = qid.split('QQ');
+    if(isNaN(qidList[1]) && qidList[0] === ''){
+        return true
+    }
+    return false;
 }
 /*
 "qID": "Q00",
