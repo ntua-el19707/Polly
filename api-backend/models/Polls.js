@@ -6,6 +6,7 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.INTEGER,
       allowNull: false,
       primaryKey: true
+      
     },
     title: {
       type: DataTypes.STRING(45),
@@ -23,6 +24,8 @@ module.exports = function(sequelize, DataTypes) {
     sequelize,
     tableName: 'Polls',
     timestamps: false,
+    
+    onDelete: 'CASCADE',
     indexes: [
       {
         name: "PRIMARY",

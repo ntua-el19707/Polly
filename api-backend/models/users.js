@@ -13,7 +13,11 @@ module.exports = function(sequelize, DataTypes) {
     saltpw: {
       type: DataTypes.STRING(32),
       allowNull: true
-    }
+    },
+    full_name:{
+      type: DataTypes.STRING(25),
+      allowNull:true 
+     }
   }, {
     sequelize,
     tableName: 'users',

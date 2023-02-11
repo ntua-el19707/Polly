@@ -8,7 +8,7 @@ module.exports = function(sequelize, DataTypes) {
       primaryKey: true
     },
     session_id: {
-      type: DataTypes.STRING(32),
+      type: DataTypes.STRING(4),
       allowNull: false
     },
     poll_id: {

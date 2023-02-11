@@ -34,6 +34,7 @@ module.exports = function(sequelize, DataTypes) {
     }
   }, {
     sequelize,
+    onDelete: 'CASCADE',
     tableName: 'Questions',
     timestamps: false,
     indexes: [

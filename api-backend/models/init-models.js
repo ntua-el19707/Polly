@@ -6,7 +6,7 @@ var _report_answers = require("./report_answers");
 var _reportfornotstats = require("./reportfornotstats");
 var _reportforstats = require("./reportforstats");
 var _users = require("./users");
-
+var _keywords = require("./keywords")
 function initModels(sequelize) {
   var Polls = _Polls(sequelize, DataTypes);
   var Questions = _Questions(sequelize, DataTypes);
@@ -15,7 +15,9 @@ function initModels(sequelize) {
   var reportfornotstats = _reportfornotstats(sequelize, DataTypes);
   var reportforstats = _reportforstats(sequelize, DataTypes);
   var users = _users(sequelize, DataTypes);
-
+  var keywords = _keywords(sequelize,DataTypes) 
+  Polls.hasMany(keywords,{as:"keywords",foreignKey:"poll_id"});
+  keywords.belongsTo(Polls,{ as: "poll", foreignKey: "poll_id"})
   Questions.belongsTo(Polls, { as: "poll", foreignKey: "poll_id"});
   Polls.hasMany(Questions, { as: "Questions", foreignKey: "poll_id"});
   report_answers.belongsTo(Polls, { as: "poll", foreignKey: "poll_id"});
@@ -44,7 +46,7 @@ function initModels(sequelize) {
     report_answers,
     reportfornotstats,
     reportforstats,
-    users,
+    users,keywords
   };
 }
 module.exports = initModels;
