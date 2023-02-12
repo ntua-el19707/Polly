@@ -1,5 +1,7 @@
-const {Router} = require('express');
-const router = Router() ;
-router.post('/',/*Controller*/);
-module.exports = router ;
 
+        const {Router} = require('express');
+        const router = Router() ;
+        const {DeleteMatehodresetq} = require('../../../controllers/admins/resetq.js')
+        router.route('/:resetq_id').delete(DeleteMatehodresetq);
+        module.exports = router ;
+        
