@@ -13,23 +13,17 @@ exports.DeleteMatehodresetall = (req,res,next) => {
         
         models.users.destroy({where:{}}).then ((d) => {
         
-        })
-            
-            
-            
-
-
         }).catch(err =>{
             console.log(err)
             resolve();
         })
 
 
+
+        }).then(() =>{
+            res.status(200).json({status:"okay"});
+        })
         })
 
-        
-
-
-res.status(200).json({status:"OK"});
 
 }

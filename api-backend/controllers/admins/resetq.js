@@ -56,9 +56,9 @@
             }).then(()=>{
                 models.report_answers.destroy({where:{poll_id:pid}});
 
-            }).catch(err =>{
-                console.log(err)
-                resolve();
+            }).then(() =>{
+
+                res.status(200).json({status:"okay"});
             })
 
             }
@@ -67,8 +67,8 @@
                 res.status(400).json({status:"failed",reason:"Wrong Input"})
             }
 
-            res.status(200).json({status:"okay"});
-
+            
+            
 
         }
   
