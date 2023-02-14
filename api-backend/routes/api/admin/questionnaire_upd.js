@@ -1,7 +1,7 @@
 const {Router} = require('express');
 const router = Router() ;
-const {create, update} =require('../../../controllers/admins/questionarie_upd')
-router.route('/').post(create);
-router.route('/:id').put(update)
+const {postCreate,putupdate} =require('../../../controllers/admins/questionarie_upd')
+router.route('/').post(postCreate);
+router.route('/:id').put(putupdate)
 
 module.exports = router ;
