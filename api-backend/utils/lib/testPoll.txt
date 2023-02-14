@@ -1,0 +1,264 @@
+
+    {
+           "questionnaireID":"",
+           "questionnaireTitle": "My first Questionaire?",
+           "keywords":["football","music","food"],
+           "questions": [
+             
+    {
+                      "qID": "Q0",
+                      "qtext": "what is your mail ?",
+                      "required": "FALSE",
+                      "type": "profile",
+                      "options": [
+             {
+                "nextqID":"Q1", 
+                "optID":"Q0A1",
+                "opttxt":"<open string>"
+             }
+             ] },{
+                      "qID": "Q1",
+                      "qtext": "what is your Favorite food?",
+                      "required": "FALSE",
+                      "type": "question",
+                      "options": [
+             {
+                "nextqID":"Q2", 
+                "optID":"Q1A1",
+                "opttxt":"pizza"
+             },
+             
+             {
+                "nextqID":"Q3", 
+                "optID":"Q1A2",
+                "opttxt":"spaggeti"
+             },
+             
+             {
+                "nextqID":"Q4", 
+                "optID":"Q1A3",
+                "opttxt":"souvlaki"
+             },
+             
+             {
+                "nextqID":"Q5", 
+                "optID":"Q1A4",
+                "opttxt":"fassolia"
+             },
+             
+             {
+                "nextqID":"Q5", 
+                "optID":"Q1A5",
+                "opttxt":"sushi"
+             }
+             ] },
+          {
+                      "qID": "Q2",
+                      "qtext": "what is your favourite pizza ?",
+                      "required": "TRUE",
+                      "type": "question",
+                      "options": [
+             {
+                "nextqID":"Q5", 
+                "optID":"Q2A1",
+                "opttxt":"margarrita"
+             },
+             
+             {
+                "nextqID":"Q5", 
+                "optID":"Q2A2",
+                "opttxt":"special"
+             },
+             
+             {
+                "nextqID":"Q5", 
+                "optID":"Q2A3",
+                "opttxt":"vegeterian"
+             },
+             
+             {
+                "nextqID":"Q5", 
+                "optID":"Q2A4",
+                "opttxt":"other"
+             }
+             ] },{
+                      "qID": "Q3",
+                      "qtext": "what is your favorite spaggeti",
+                      "required": "TRUE",
+                      "type": "question",
+                      "options": [
+             {
+                "nextqID":"Q5", 
+                "optID":"Q3A1",
+                "opttxt":"carbonara"
+             },
+             
+             {
+                "nextqID":"Q5", 
+                "optID":"Q3A2",
+                "opttxt":"bologneze"
+             },
+             
+             {
+                "nextqID":"Q5", 
+                "optID":"Q3A3",
+                "opttxt":"pesto"
+             },
+             
+             {
+                "nextqID":"Q5", 
+                "optID":"Q3A4",
+                "opttxt":"other"
+             }
+             ] },{
+                      "qID": "Q4",
+                      "qtext": "what sauce do you prefer? ",
+                      "required": "TRUE",
+                      "type": "question",
+                      "options": [
+             {
+                "nextqID":"Q5", 
+                "optID":"Q4A1",
+                "opttxt":"tirokauteri"
+             },
+             
+             {
+                "nextqID":"Q5", 
+                "optID":"Q4A2",
+                "opttxt":"tzatsiki"
+             },
+             
+             {
+                "nextqID":"Q5", 
+                "optID":"Q4A3",
+                "opttxt":"yiaurti"
+             },
+             
+             {
+                "nextqID":"Q5", 
+                "optID":"Q4A4",
+                "opttxt":"tashi"
+             },
+             
+             {
+                "nextqID":"Q5", 
+                "optID":"Q4A5",
+                "opttxt":"pikla"
+             }
+             ] },{
+                      "qID": "Q5",
+                      "qtext": "what music you  prefer?",
+                      "required": "FALSE",
+                      "type": "question",
+                      "options": [
+             {
+                "nextqID":"Q6", 
+                "optID":"Q5A1",
+                "opttxt":"greek"
+             },
+             
+             {
+                "nextqID":"Q7", 
+                "optID":"Q5A2",
+                "opttxt":"foreign"
+             }
+             ] },{
+                      "qID": "Q6",
+                      "qtext": "who is your favourite artist",
+                      "required": "TRUE",
+                      "type": "question",
+                      "options": [
+             {
+                "nextqID":"Q8", 
+                "optID":"Q6A1",
+                "opttxt":"Mellises"
+             },
+             
+             {
+                "nextqID":"Q8", 
+                "optID":"Q6A2",
+                "opttxt":"Oikonomopoullos"
+             },
+             
+             {
+                "nextqID":"Q8", 
+                "optID":"Q6A3",
+                "opttxt":"Argiros"
+             }
+             ] },{
+                      "qID": "Q7",
+                      "qtext": "who is your favorite foreign artist",
+                      "required": "TRUE",
+                      "type": "question",
+                      "options": [
+             {
+                "nextqID":"Q8", 
+                "optID":"Q7A1",
+                "opttxt":"Eminem"
+             },
+             
+             {
+                "nextqID":"Q8", 
+                "optID":"Q7A2",
+                "opttxt":"Sakira"
+             },
+             
+             {
+                "nextqID":"Q8", 
+                "optID":"Q7A3",
+                "opttxt":"50Cent"
+             }
+             ] },{
+                      "qID": "Q8",
+                      "qtext": "do you watch football",
+                      "required": "FALSE",
+                      "type": "question",
+                      "options": [
+             {
+                "nextqID":"Q9", 
+                "optID":"Q8A1",
+                "opttxt":"yes"
+             },
+             
+             {
+                "nextqID":"-", 
+                "optID":"Q8A2",
+                "opttxt":"no"
+             }
+             ] },{
+                      "qID": "Q9",
+                      "qtext": "what team are you",
+                      "required": "TRUE",
+                      "type": "question",
+                      "options": [
+             {
+                "nextqID":"-", 
+                "optID":"Q9A1",
+                "opttxt":"Panathinaikos"
+             },
+             
+             {
+                "nextqID":"-", 
+                "optID":"Q9A2",
+                "opttxt":"Olimpiakos"
+             },
+             
+             {
+                "nextqID":"-", 
+                "optID":"Q9A3",
+                "opttxt":"Aek"
+             },
+             
+             {
+                "nextqID":"-", 
+                "optID":"Q9A4",
+                "opttxt":"PAOK"
+             },
+             
+             {
+                "nextqID":"-", 
+                "optID":"Q9A5",
+                "opttxt":"other"
+             }
+             ] } ] }
+    
