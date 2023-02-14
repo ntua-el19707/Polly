@@ -1,0 +1,17 @@
+
+<span>{{Msg}}</span>
+<form [formGroup]="confirmPsw" >
+    <section>
+        New  Password:
+        <br>
+        <input type="password" class="form-control" name="password1"   (keyup)="stillWriting($event)" formControlName="pass1">
+    </section>
+    <section>
+        Re-type New Password:
+        <br>
+        <input   type="password" class="form-control" name="password2"   (keyup)="stillWriting($event)"  formControlName="pass2">
+        <div class="cont3"*ngIf="passwordMatchError ">
+            <p *ngIf="passwordMatchError " class="alert alert-danger">Password do ot match</p>
+         </div></section>
+       
+</form>

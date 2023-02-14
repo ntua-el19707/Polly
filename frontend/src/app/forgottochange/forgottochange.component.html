@@ -1,0 +1,19 @@
+
+<div class="cont" style="margin-top: 10px;" >
+<br>
+<confirmPsw [Msg]="getmsg()" [(pass1)]="pass1" [(pass2)]="pass2" [(valid)]="valid"></confirmPsw>
+
+<div *ngIf="valid;then enablebutton; else disablebutton">
+ 
+
+</div>
+<ng-template #disablebutton>
+  <br>
+  <button class="form-control  btn btn-success" disabled>Change pass</button>
+</ng-template>
+<ng-template #enablebutton>
+  <br>
+  <button (click)="update()"class="form-control  btn btn-success">Change pass</button>
+</ng-template>
+
+</div>

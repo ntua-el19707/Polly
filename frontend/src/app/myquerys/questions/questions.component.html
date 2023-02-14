@@ -1,0 +1,59 @@
+<form [formGroup]="QuestionsForm" (keydown.enter)="$event.preventDefault()">
+    <div  class="questions">
+   
+    Write your Question? <br>
+    <div class="flex">
+    <span>{{question.qID}}: </span>&nbsp;<input class="form-control" type="text" (keyup)="stillWriting($event)" formControlName="qtext">
+    &nbsp;
+    <button class="iconButtons red" (click)="pop()" >
+        <i class="fa fa-trash"></i>
+   </button>
+    <br>
+    </div>
+    <br>
+    <span *ngIf="!whatType()" style="font-weight: normal">
+    Is your question Mandatory? <span style="color:red">*</span>
+    <select (change)="requiremethod()" class="form-control" formControlName="require">
+        <option value="FALSE"> false</option>
+        <option value="TRUE"> true</option>
+    </select></span>
+    <br>
+    What is the type?
+    <select (change)="typeofquestion()" class="form-control" formControlName="qtype" >
+        <option value="profile"> info</option>
+        <option value="question"> question</option>
+    </select>
+
+    
+
+    <div *ngIf="whatType();then txt ;else  multi">
+   
+    </div>
+  
+    <ng-template #txt>
+    <br>
+        <div class="flex">
+
+    <span>{{question.qID}}A1: </span>&nbsp; <input disabled type ="text" class="form-control">
+    </div>
+    </ng-template>
+    <ng-template #multi>
+        <br>
+        <hr>
+        <br>
+        <div class="optionsBox">
+         Options:
+         <div *ngFor="let o of  question.options">
+        <optionsForm [(realOptions)]="question.options" [realOption]="o" [(questionarie)] ="questionarie" [questions]="question" ></optionsForm>
+         </div>
+        </div>
+        <div class="btn10">
+            <br>
+        <input class="form-control  btn"  type="button"  (click)="pushopt()"value="Whould you like to add a new option">
+        </div>
+        </ng-template>
+   <hr>
+
+    </div>
+
+</form>

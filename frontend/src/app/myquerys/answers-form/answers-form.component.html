@@ -1,0 +1,44 @@
+<br>
+<form [formGroup]="FormOptions">
+    <div class="flex">
+        <span>
+            {{realOption.optID}}
+        </span>
+        &nbsp;
+        <input type="text" class="form-control" (keyup)="stillWriting($event)" formControlName="opttext">
+        &nbsp;
+        <button class="iconButtons red" (click)="pop()" >
+            <i class="fa fa-trash"></i>
+       </button>
+  
+        
+       
+    </div>
+    <br>
+    <div class="flex">
+      
+    <div *ngIf="notlast() ;then next ; else default"></div>
+        
+    <ng-template #next><span>
+        Next question:
+    </span>
+    &nbsp;</ng-template>
+    <ng-template #default>
+        <span>
+        Default Next Question:
+    </span>
+    &nbsp;
+    </ng-template>
+    &nbsp;
+    <b>{{realOption.nextqID}}</b>
+    &nbsp;
+    <button (click)="toggle()" class="icons" style="color: blue;border:none">   <i class="fa fa-edit"></i></button>
+ 
+</div>
+<div *ngIf="getedit()">
+    <br>
+    <select (change)="nextqID($event)" class="form-control" >
+        <option value="" disabled selected hidden>Select next question</option>
+        <option *ngFor = "let q of getquestions()" value={{q.qID}} >{{q.qID}}</option>
+    </select></div>
+</form>

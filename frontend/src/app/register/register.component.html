@@ -1,0 +1,30 @@
+<!-- Registartion Form -->
+<div class="conatiner-sm cont">
+    <br>
+    <h1>Register to our Services</h1>
+    <form [formGroup]="registerForm" (ngSubmit)="Register()">
+        <section>
+         Email:
+         <br>
+         <input type="text" class="form-control" name="username"  formControlName="username">
+    
+        </section>
+        <section>
+            Password:
+            <br>
+            <input type="password" class="form-control" name="password1" formControlName="pass1">
+        </section>
+        <section>
+            Re-type Password:
+            <br>
+            <input   type="password" class="form-control" name="password2"  formControlName="pass2">
+            <div class="cont3"*ngIf="passwordMatchError ">
+                <p *ngIf="passwordMatchError " class="alert alert-danger">Password do ot match</p>
+             
+             </div>
+        </section>
+        <hr>
+        <section>
+            <button  class="form-control btn btn-success">Register</button>
+        </section>
+    </form></div>

@@ -1,0 +1,27 @@
+<div class="conatiner-sm cont">
+<br>
+<h1>Log in</h1>
+<form  [formGroup]="loginForm" (ngSubmit)="test()">
+    <section>
+     Email:
+     <br>
+     <input type="text" class="form-control"  formControlName="email"name="username">
+
+    </section>
+    <section>
+        Password:
+        <br>
+        <input type="password" class="form-control" formControlName="password" name="password">
+    </section>
+    <div class="cont3"*ngIf="errohappen()">
+        <p  class="alert alert-danger">Password do not match</p>
+     </div>
+    <section>
+        <br>
+        <a href="/forgot">Forgot your password?</a>
+    </section>
+    <hr>
+    <section  >
+        <button  class="form-control btn btn-success" >Log in</button>
+    </section>
+</form></div>

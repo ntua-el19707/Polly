@@ -1,0 +1,60 @@
+<h1 mat-dialog-title>Change your password Form</h1>
+<div mat-dialog-content>
+
+
+        <mat-card>
+          <mat-card-header>
+            
+            <mat-card-title> </mat-card-title>
+            </mat-card-header>
+            <mat-card-title *ngIf="getSteP() === 'OldPsw'">
+              <span style="font-size: medium;"> Step 1 - fill  your old password</span> 
+              <mat-card-subtitle>
+                <br>
+                <form [formGroup]="oldForm">
+                  <label >Old password:</label>
+                  <input class="form-control" type="password" formControlName="oldpass">
+                  <br>
+                  <button  class="btn btn-success" type="button" (click)="toConfirmComponet()" ><i class="fa fa-arrow-right" aria-hidden="true"></i></button>
+      
+                </form>
+              </mat-card-subtitle>
+            </mat-card-title>
+            <mat-card-title *ngIf="getSteP() === 'NewPsw'">
+              <span style="font-size: medium;"> Step 2 - change your password</span> 
+              <br>
+              <mat-card-subtitle>
+          
+                <br>
+                <confirmPsw [Msg]="getmsg()" [(pass1)]="pass1" [(pass2)]="pass2" [(valid)]="valid"></confirmPsw>
+           
+                <div *ngIf="valid;then enablebutton; else disablebutton">
+                 
+                
+                </div>
+                <ng-template #disablebutton>
+                  <br>
+                  <button class="form-control  btn btn-success" disabled>Change pass</button>
+                </ng-template>
+                <ng-template #enablebutton>
+                  <br>
+                  <button class="form-control  btn btn-success" (click)="toDone()">Change pass</button>
+                </ng-template>
+               
+              </mat-card-subtitle>
+            </mat-card-title>
+            <mat-card-title *ngIf="getSteP() === 'done'">
+              <span style="font-size: medium;"> Step 3 - done</span> 
+              <br>
+              <mat-card-subtitle>
+                Your password has changed
+              </mat-card-subtitle>
+             
+            </mat-card-title>
+          </mat-card>
+          <div mat-dialog-actions>
+            <button mat-button mat-dialog-close>Close</button>
+     
+          </div>
+        
+</div>

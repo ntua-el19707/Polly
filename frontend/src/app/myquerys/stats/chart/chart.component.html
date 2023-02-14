@@ -1,0 +1,15 @@
+
+ <span class="chart-container"   *ngIf="getCharttype() === 'pie'" >
+    <canvas baseChart
+    [data]="barChartData"
+    [options]="barChartOptions"
+    [type]="'pie'" class="chart-wrapper">
+</canvas>
+</span>
+<span class="chart-container"   *ngIf="getCharttype() === 'bar'" >
+    <canvas baseChart
+    [data]="barChartData"
+    [options]="horizontal"
+    [type]="'bar'" class="chart-wrapper">
+</canvas>
+</span>

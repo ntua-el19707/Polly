@@ -1,0 +1,40 @@
+
+<div  class="conatiner-sm cont header">{{getquestionarie().questionnaireTitle}}
+  <br>
+  <p style="color:black;padding-top: 16px;font-size: 65%;">{{getKeywords()}}</p>
+</div>
+
+<div *ngFor="let q of getquestionarie().questions">
+
+<query [formSubmited]="getSubmition()" [question]="q" [(current)]="current" [(questionarie)] = "questionari"[(mode)]="mode"  [(checkArray)]="q.answer" ></query>
+</div>
+<div *ngIf="getSubmition()">
+
+<div class="conatiner-sm cont3">
+    <div *ngIf="mode && !mode2">
+     <div >
+        <div class="FontStyle">
+          Thank you For your Time,</div> 
+        <div class="FontStyle">  Please Submit your answers</div>
+        <br>
+        <button class="form-control btn btn-success" (click)="submit()">Submit</button>
+     <br>
+     <hr>
+</div>
+
+</div></div>
+
+</div>
+<div *ngIf="getNotSubmition()"  class="conatiner-sm cont3">
+ 
+  <div >
+     <div class="FontStyle">
+       Form Submited,
+      </div> 
+     
+  <hr>
+
+
+</div>
+
+

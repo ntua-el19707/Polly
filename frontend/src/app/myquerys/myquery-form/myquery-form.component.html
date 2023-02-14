@@ -1,0 +1,123 @@
+
+<button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+    <mat-icon>more_vert</mat-icon>
+  </button>
+  <mat-menu #menu="matMenu">
+    <button mat-menu-item (click)="setQueryBuilder()">
+      <mat-icon>build</mat-icon>
+      <span>Query Builder</span>
+    </button>
+
+    <button mat-menu-item (click)="setView()">
+      <mat-icon>visibility</mat-icon>
+      <span>Query View</span>
+    </button>
+  </mat-menu>
+<!--<mat-drawer-container class="example-container">
+    <mat-drawer-content>
+<mat-tab-group [dynamicHeight]="true" >
+    <mat-tab label="Query Builder" md-stretch-tabs="always" >
+       
+            <div >
+                <h1 class="cont">Query Builder</h1>
+                <hr class="green">
+                <form [formGroup]="QuestionarieForm">
+                    <label for="title">Title:</label><br>
+                    <input  name="title" class="form-control" type="text" (keyup)="stillWriting($event)" formControlName="title">
+                
+                   
+                    <div class="btns-layout">
+                
+                    <div *ngIf = "thereAreKeywords()">
+                        Keywords:
+                        <div *ngFor="let k of keywordsarray">
+                            <keyword [keyword] = "k" [(keywordsarray)]="keywordsarray" [(questionaire)]="questionarie"></keyword>
+                        </div>
+                    </div>
+                    <div *ngIf="disable()">
+                    <input class="form-control btn" type="button" (click)="addAnewKeyWord()" value="Whould you like to add a KeyWord">
+                    </div>        
+                    </div>
+                    <h1 class="cont">Questions</h1>
+                    <hr class="green">
+                    <div class="btns-layout">
+                    <div *ngIf = "thereAreQuestions()">
+                        Questions:
+                        <hr>
+                        <div  *ngFor="let q of questionarie.questions">
+                           
+                            <questionsForm [question]="q" [(questionarie)]="questionarie"></questionsForm>
+                        
+                        </div>
+                    </div>
+                    <input class="form-control btn" type="button" (click)="pushQuestion()" value="Whould you like to add a new question">
+                    </div>
+                </form>
+               
+        </div>
+   
+    </mat-tab>
+    <mat-tab label="Query View"  md-stretch-tabs="always">
+        <app-querysparent [mode2]="true" [questionari] = "questionarie" [current]="first()"></app-querysparent>
+    </mat-tab>
+</mat-tab-group></mat-drawer-content></mat-drawer-container>
+-->
+
+<!--<div style="display: flex;text-align: center;">
+    <span style="width:50%" ng-click="setQueryBuilder">...</span>
+    <span style="width:50%" ng-click="setView">...</span>
+</div>-->
+<div *ngIf="getView();then Form;else view">
+
+</div>
+<ng-template #Form>
+    <div >
+        <h1 class="cont">Query Builder</h1>
+        <hr class="green">
+        <form [formGroup]="QuestionarieForm">
+            <label for="title">Title:</label><br>
+            <input  name="title" class="form-control" type="text" (keyup)="stillWriting($event)" formControlName="title">
+        
+           
+            <div class="btns-layout">
+        
+            <div *ngIf = "thereAreKeywords()">
+                Keywords:
+                <div *ngFor="let k of keywordsarray">
+                    <keyword [keyword] = "k" [(keywordsarray)]="keywordsarray" [(questionaire)]="questionarie"></keyword>
+                </div>
+            </div>
+            <div *ngIf="disable()">
+            <input class="form-control btn" type="button" (click)="addAnewKeyWord()" value="Whould you like to add a KeyWord">
+            </div>        
+            </div>
+            <h1 class="cont">Questions</h1>
+            <hr class="green">
+            <div class="btns-layout">
+            <div *ngIf = "thereAreQuestions()">
+                Questions:
+                <hr>
+                <div  *ngFor="let q of questionarie.questions">
+                   
+                    <questionsForm [question]="q" [(questionarie)]="questionarie"></questionsForm>
+                
+                </div>
+            </div>
+            <div class="flex">
+            <button class="form-control btn" (click)="pushQuestion(getTy(1))"><i class="fa fa-plus" aria-hidden="true">Text Question</i></button>
+    
+            <button class="form-control btn" (click)="pushQuestion(getTy(0))"><i class="fa fa-plus" aria-hidden="true">Multiple Choice</i></button>
+            </div>
+        </div>
+        <br>
+        <hr>
+        <button class="form-control btn" (click)="build()" >Submit</button>
+
+        </form>
+        </div>
+</ng-template>
+<ng-template #view>
+    <app-querysparent [mode2]="true" [questionari] = "questionarie" [current]="first()"></app-querysparent>
+    
+   
+</ng-template>

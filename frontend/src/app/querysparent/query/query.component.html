@@ -1,0 +1,113 @@
+<div *ngIf="getSubmition()">
+<div *ngIf="getmode();then one;else all"></div>
+<ng-template #one><div *ngIf="showq();then show" ></div>
+</ng-template>
+<ng-template #all>
+    <div *ngIf="showq()">
+        <div class="conatiner-sm cont">
+            <button  class="btn btn-primary" type="button" (click)="ForceChangeMode()" ><i class="fa fa-arrow-left" aria-hidden="true"></i></button>
+        </div>
+    </div>
+  
+  
+</ng-template>
+  
+
+<ng-template #show>
+    <div *ngIf="true;then forms"></div>
+   
+</ng-template>
+
+        <!--Forms-->
+        <ng-template #forms>
+            <div class="conatiner-sm cont">
+                <div class="question">
+                    <span *ngIf="required" style="color:red">*</span>{{question.qID}}. {{question.qtext}}</div><!---Question-->
+                <div *ngIf="istxt();then txt;else multi"></div>
+               
+        <ng-template #txt>
+
+            <!--Txt form-->
+            <form [formGroup]="querytxtform">    
+                <div class="cont2" *ngFor="let o of getoptions()">  
+                    <input type="text" name="opttxt" class="form-control"  formControlName="opttxt" >
+                </div> 
+                <div *ngIf="getmode();then btns"></div>
+            </form>
+            </ng-template>
+            <ng-template #multi>
+            <!--Multi form-->
+            <form [formGroup]="queryFormmulti">
+                <p *ngIf="queryFormmulti.controls['answer'].errors?.['limmit']" class="alert alert-danger">You cannot answer more than 1</p>
+                <div  *ngFor="let o of question.options">  
+                    
+                    <div class="cont2">
+                 
+                    <section *ngIf="check(o.optID,o.nextqID);then checktempl ;else nocheck"></section>
+                    
+                        <ng-template #checktempl>  
+                            
+                            <input  type="checkbox" FormControl="answer" [value]="o.optID" checked
+                                    (change)="onCheckboxChange($event)"></ng-template>
+                        <ng-template #nocheck>  <input  type="checkbox" FormControl="answer" [value]="o.optID"
+                                (change)="onCheckboxChange($event)">
+                                </ng-template>
+                                &nbsp;
+                                &nbsp;
+                                {{o.opttxt}}    &nbsp;
+                                <span style="">({{o.optID}})</span> 
+                                  
+                    </div>
+                
+                    
+                     
+                        
+                       
+                     
+                        
+                </div>
+            </form>
+            <div *ngIf="getmode();then btns"></div>
+            </ng-template>
+            </div>
+        </ng-template>
+
+         <!--Buttons-->
+         <ng-template #btns>
+            <div class="btns">
+                 <section *ngIf="firstquestion() ; then left ;else normal" ></section>
+                 <ng-template #left>
+                 <!--hide left buuton since your are at begin-->
+                 <section *ngIf="disablebtn();then no ;else yes"></section>
+                 </ng-template>
+                 <ng-template #normal>
+                     <section *ngIf="lastquestion() ; then last ;else both"></section>
+                     <ng-template #last>
+                        <section *ngIf="disableleft();then noleft ;else yesleft"></section> 
+                     </ng-template>
+                     <ng-template #both>
+                        
+                         <section *ngIf="disableleft();then noleft ;else yesleft"></section> 
+                         &nbsp;
+                         <section *ngIf="disablebtn();then no ;else yes"></section>
+             
+                  
+                     </ng-template>
+                     <ng-template #noleft>
+                        <button disabled class="btn btn-primary" type="button" ><i class="fa fa-arrow-left" aria-hidden="true"></i></button>
+                    </ng-template>
+                    <ng-template #yesleft>
+                        <button  class="btn btn-primary" type="button" (click)="previous()" ><i class="fa fa-arrow-left" aria-hidden="true"></i></button>
+                    </ng-template>
+                   
+                 </ng-template>
+                   <ng-template #no>
+                        <button disabled class="btn btn-success" type="button" ><i class="fa fa-arrow-right" aria-hidden="true"></i></button>
+                    </ng-template>
+                    <ng-template #yes>
+                        <button  class="btn btn-success" type="button" (click)="next()" ><i class="fa fa-arrow-right" aria-hidden="true"></i></button>
+                    </ng-template>
+                         
+                </div>
+                </ng-template>
+</div>

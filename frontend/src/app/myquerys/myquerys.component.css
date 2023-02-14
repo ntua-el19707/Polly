@@ -1,0 +1,95 @@
+.cont{
+    margin-top: 50px;
+    margin-left: 100px;
+    margin-right:100px;
+    color:black;
+ 
+}
+
+h1.cont{
+    font-size: 25px;
+    text-align: center;
+    font-weight: lighter;
+    padding-bottom: 15px;
+    padding-top: 15px;
+}
+hr.green{
+    background-color: green;
+}
+.btns-layout{
+
+    padding-top: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+.btn{
+    background-color: white;
+    border: dashed black 1px;
+}
+.btn:hover {
+   border: solid 2px green;
+   color:green
+}
+.flex{
+    display: flex;
+
+}
+.questions{
+    background-color: white;
+}
+div.questions>div:nth-of-type(odd){
+    background-color: white;
+}
+div.questions>div:nth-of-type(even){
+ 
+    margin-right: 10%;
+    margin-left: 10%;
+}
+.btn10{
+    margin-left: 10%;
+    margin-right: 10%;
+}
+
+.iconButtons{
+    
+    width: 35px;
+    float: right;
+
+    border: none;
+}
+.icons{
+    border:1px solid black;
+    color: black;
+    background-color: white;
+
+}
+.iconButtons:hover{
+    
+  background-color: white;
+}
+
+
+.red{
+
+    background-color: red;
+}
+.green{
+    background-color: green;
+}
+.scroll{
+    overflow: hidden;
+}
+.span_tab{
+    width: 50%;
+    border: 1px solid black;
+}
+html, body {
+    height: 100%;    
+    margin: 0;
+    padding: 0;
+}
+
+.container,  .mat-tab-group, .mat-tab-body-content, .second-tab  {
+    height: 100%;
+ 
+    overflow: hidden;}

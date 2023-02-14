@@ -1,0 +1,28 @@
+<div  class="conatiner-sm cont">
+  <br>
+    <span class="header title" style="text-align: center;">{{getTitle()}}</span>
+   
+   
+ 
+</div>
+<br>
+<hr>
+<div id="box" #box>
+<mat-grid-list cols={{getcols()}} (window:resize)="setcolums()" rowHeight="1:1.7" style="margin:15px">
+  <mat-grid-tile class="charts" *ngFor="let q of questionStats">
+  <div>
+  <div class="text"> <span style="font-weight: bold;">{{q.qID}}.</span>{{q.qtext}}?</div>
+  <div class="text"> <b>Percetage Stats %</b></div>
+  <chart [chart]="createchart(q.Stats,q.qID)" ></chart> 
+  <div class="text"> <b>Total</b></div>
+  <chart [chart]=" createchartBar(q.Stats,q.qID)" ></chart> 
+
+  </div>
+</mat-grid-tile>
+</mat-grid-list>
+
+<div style="margin:10px">
+<hr>
+  <button class="form-control btns btn-success text" (click)="requestmail()">request excel file</button>
+</div>
+</div>

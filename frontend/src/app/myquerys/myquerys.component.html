@@ -1,0 +1,80 @@
+
+<div class="container-sm cont " >
+  <button (click)="toggle()" class="form-control icons" style="color: green;"  > Genarate Links  </button>
+   <table class="table table-striped table-hover">
+      <thead>
+         <tr>
+           <th scope="col-4">Questionarie</th>
+           <th scope="col-4"></th>
+           <th scope="col-4"></th>
+           <th scope="col-4"></th>
+         </tr>
+       </thead>
+       <tbody>
+         <tr *ngFor="let q of questionarie">
+            <td scope="col-4">{{q.QuestionarieTitle}}</td>
+            <td scope="col-4">
+               <button (click)="routeNavChartrouter(q.id)"class="icons" style="color: green;" >
+                  <i class="fa fa-bar-chart"></i></button>
+            </td>
+            <td scope="col-4">
+               <button (click)="routeNavBuilderrouter(q.id)"  class="icons" style="color: blue;">
+                  <i class="fa fa-edit"></i></button>
+            </td>
+            <td scope="col-4" ><button (click)="deleteQuery(q.id)" class="icons" style="color: red;"   >
+               <i class="fa fa-trash"></i>
+          </button>
+       </td>
+         </tr>
+       </tbody>
+    </table>
+    <!---->
+  
+    <br>
+    <div *ngIf="getCard()">
+    <form [formGroup]="linkform">
+    <mat-card >
+      <mat-card-header>
+        
+        <mat-card-title>Link Generator</mat-card-title>
+        </mat-card-header>
+        <mat-card-subtitle>
+          <div> Generate links for your survey </div>
+ 
+          <select class="form-control" formControlName="selectform">
+            <option value="null" disabled selected hidden>Select Survey</option>
+            <option *ngFor="let q of questionarie" [ngValue]="q.id">{{q.QuestionarieTitle}}</option> 
+          </select>
+          
+          <div style="display: flex; ">
+          
+          <input formControlName="total" placeholder="total links" name="linkstotal" type="number" style="width: 100px;height: 40px;margin-top: 10px;">
+          <span *ngIf="valid();then en ;else di">
+          
+        </span>
+        <ng-template #di>
+          <button disabled class="btn btn-success"  style="color: black;width: 100px;height: 40px;margin-top: 10px;margin-left: 5px;">Generate</button>
+        </ng-template>
+        <ng-template #en>
+          <button (click) ="genarate()"class="btn btn-success"  style="color: black;width: 100px;height: 40px;margin-top: 10px;margin-left: 5px;">Generate</button>
+        </ng-template>
+        </div>
+         <div *ngIf="GenarateLinksexist()">
+             <span style="color: green;">Genarated links:</span>
+             <div *ngFor="let l of getLinks()"><a href={{l}}>{{l}}</a></div>
+         </div>
+
+        </mat-card-subtitle>
+       
+     
+    
+    
+      </mat-card>
+    </form>
+  </div>
+    <hr>
+    <br>
+    <button (click)="routeNavBuilder()" class="form-control icons" style="color: green;"  >  <i class="fa fa-plus"></i></button>
+
+</div>
+<!--<stats [questionStats]="qStats"></stats>-->

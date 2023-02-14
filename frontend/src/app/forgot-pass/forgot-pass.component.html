@@ -1,0 +1,31 @@
+<div class="cont" style="margin-top: 100px;">
+<div *ngIf="step();then requestForm ; else requestSend"></div>
+<ng-template #requestSend>
+    <p style="color:green">
+        Your request has been approved!
+    </p>
+    <b>
+        Check your mail box for a RESET PASSWORD mail
+    </b>
+</ng-template>
+<ng-template #requestForm>
+
+<h1  style="color:black"><b>Forgot your password?</b></h1>
+<form [formGroup]="RequestForm">
+    <label >{{getmsg()}}:</label>
+    <input class="form-control" type="text" formControlName="email"  >
+    <div *ngIf="userdoesexist()"  class="alert alert-danger">
+        user is not register in our services
+    </div>
+    <div *ngIf="touchedoddirtyinavlid"  class="alert alert-danger">
+    <div *ngIf="emptyError">* email is a required field</div>
+    <div *ngIf="RequestForm.controls?.['email'].errors?.['pattern']">This is not an email</div></div>
+    <br>
+    <div *ngIf="RequestForm.controls?.['email'].invalid;then disablebtn ; else enablebtn "></div> 
+    <ng-template #disablebtn><input class="form-control btn btn-success" disabled type="button" value="request"></ng-template>
+    <ng-template #enablebtn><input class="form-control btn btn-success" (click)="update()" type="button" value="request"></ng-template>
+    
+    <hr>
+</form>
+</ng-template>
+</div>

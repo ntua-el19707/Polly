@@ -1,0 +1,16 @@
+<form [formGroup]="keywordForm" (keydown.enter)="$event.preventDefault()">
+    
+    <div class="flex">
+    <input class="form-control" type="text" (keyup)="stillWriting($event)" formControlName="keyword"  >
+    &nbsp;
+
+    &nbsp;
+    <button class="iconButtons red" (click)="pop()" >
+        <i class="fa fa-trash"></i>
+   </button>
+
+</div>
+    <br>
+
+</form>
+

@@ -1,0 +1,44 @@
+.cont{
+    margin-left:100px;
+    margin-right: 100px;
+}
+@media (min-width: 576px) { 
+    
+}
+h1{
+    color:green
+}
+
+@media (min-width: 768px) { 
+    .cont{
+        margin-left:150px;
+        margin-right: 150px;
+    }
+       
+}
+
+
+@media (min-width: 992px) { 
+    .cont{
+        margin-left:200px;
+        margin-right: 200px;
+    }
+ 
+}
+
+
+@media (min-width: 1200px) { 
+    .cont{
+        margin-left:300px;
+        margin-right: 300px;
+    }
+ 
+}
+
+
+@media (min-width: 1400px) { 
+.cont{
+    margin-left:400px;
+    margin-right: 400px;
+}
+}
