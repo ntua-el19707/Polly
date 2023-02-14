@@ -4,6 +4,30 @@ var initModels = require("../../models/init-models");
 const e = require('express');
 const Questions = require('../../models/Questions');
 var models = initModels(sequelize);
+
+
+
+
+
+const JSONToCSV = (objArray, keys) => {
+    let csv = keys.join(',');
+    objArray.forEach((row) => {
+        let values = [];
+        keys.forEach((key) => {
+            console.log(key)
+            key.forEach(k=>{
+            values.push(row[k]|| '');})
+           // console.log(row);
+        });
+        csv += '\n' + values.join(',');
+    });
+    return csv;
+};
+
+
+
+
+
 exports.getanswers  = (req,res,next)=>{
 
     const questionaireID = req.params.questionaireID ;
@@ -19,10 +43,15 @@ exports.getanswers  = (req,res,next)=>{
     let statsaa=[];
     let counter=0;
 
-    if((!isNaN(questionaireID))&&(session.length==4)){
+    const format = req.query.format; 
+
+    console.log(session);
+
+    if((((!isNaN(questionaireID))&&(session.length==4))) && (format === "csv" || format === "json" || format === undefined) ){
 
         pid = parseInt(questionaireID);
         sid = session;
+        
 
 
         let rsp = {};
@@ -37,7 +66,7 @@ exports.getanswers  = (req,res,next)=>{
                     res.status(400).json({status:"failed",reason:`Poll with ID ${pid} and Session ${sid} does not exist`});
                 }
                 else{
-
+                    
                     found=true;
                     let report=p[0].dataValues;
 
@@ -55,7 +84,10 @@ exports.getanswers  = (req,res,next)=>{
 
 
 
+
         })
+
+
 
         Promise.all([find_poll]).then(() =>{ 
 
@@ -333,9 +365,42 @@ exports.getanswers  = (req,res,next)=>{
                         rsp.answers=json;
 
 
+                        
+                        if((rsp.answers.length) === 0){
+                            res.status(402).json("There are no answers for this question")
+                        }
 
-                        res.status(200).json({status:"okay",rsp});
-                    })
+
+                        else {
+                            if(format === 'csv'){
+
+                                var question_Arr = [];
+                                let keys = [];
+                            
+                                rsp.answers.forEach(option  => {
+                                    row = {
+                                        questionaireID: rsp.questionnaireID,
+                                        session: rsp.session,
+                                        qID:option.qID,
+                                        ans:option.ans,
+                                        ...option
+                                    }
+                                    //console.log(row);
+                                    question_Arr.push(row);
+                                    //console.log(question_Arr);
+                                })
+                                
+                                keys.push(Object.keys(question_Arr[0]));
+                                //console.log(JSONToCSV(question_Arr,keys));
+                                rsp = (JSONToCSV(question_Arr,keys));
+                            }
+
+
+
+
+                            res.status(200).json({status:"okay",rsp});
+                    }
+                })
                        
                         
 

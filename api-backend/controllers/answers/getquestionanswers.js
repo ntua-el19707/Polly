@@ -1,14 +1,31 @@
-// require models
 const sequelize = require('../../utils/database');
 var initModels = require("../../models/init-models");
 const e = require('express');
 const Questions = require('../../models/Questions');
 var models = initModels(sequelize);
+
+const JSONToCSV = (objArray, keys) => {
+    let csv = keys.join(',');
+    objArray.forEach((row) => {
+        let values = [];
+        keys.forEach((key) => {
+            console.log(key)
+            key.forEach(k=>{
+            values.push(row[k]|| '');})
+           // console.log(row);
+        });
+        csv += '\n' + values.join(',');
+    });
+    return csv;
+};
+
+
+
 exports.getanswers  = (req,res,next)=>{
 
     const questionaireID = req.params.questionaireID ;
     const questionID = req.params.questionID;
-
+    const format = req.query.format; 
 
     let pid,sid;
     let report_id;
@@ -21,8 +38,8 @@ exports.getanswers  = (req,res,next)=>{
     let counter=0;
 
 
-    if((!isNaN(questionaireID))&&(!isNaN(questionID))){
-
+    if(((!isNaN(questionaireID))&&(!isNaN(questionID)) && (format === "csv" || format === "json" || format === undefined))){
+     
         pid = parseInt(questionaireID);
         qid = parseInt(questionID);
        // console.log(pid);
@@ -349,9 +366,43 @@ exports.getanswers  = (req,res,next)=>{
                             json.reverse();
                             rsp.answers=json;
 
+                            if((rsp.answers.length) === 0){
+                                res.status(402).json("There are no answers for this question")
+                            }
+                            else{
+
+                                if(format === 'csv'){
+
+                                    var question_Arr = [];
+                                    let keys = [];
+                                
+                                    if((rsp.answers.length) > 0){
+                                        rsp.answers.forEach(option  => {
+                                            row = {
+                                                questionaireID: rsp.questionnaireID,
+                                                questionID: rsp.questionID,
+                                                session:option.session,
+                                                ans:option.ans,
+                                                ...option
+                                            }
+                                    
+                                            //console.log(row);
+                                            question_Arr.push(row);
+                                            //console.log(question_Arr);
+                                        })
+                                        
+                                        keys.push(Object.keys(question_Arr[0]));
+                                        //console.log(JSONToCSV(question_Arr,keys));
+                                        rsp = (JSONToCSV(question_Arr,keys));
+                                    }
+
+                                }
+
+                    
+
 
                             res.status(200).json({status:"okay",rsp});
-                        })
+                        }})
 
                       
                     })
@@ -375,4 +426,3 @@ exports.getanswers  = (req,res,next)=>{
         res.status(400).json({status:"failed",reason:"Give Correct Input Format"});
     }
 }
-
