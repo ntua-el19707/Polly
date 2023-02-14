@@ -12,9 +12,8 @@ const resetq = require('./resetq')
 const user =  require('./user')
 const mypolls = require('./mypolls');
 const changapassRequest = require('./giveMylicence')
-const myInfo = require('./myInfo');
-const QuestionsMangment = require('./QuestionsMangment')
-const options = require('./optionsMangemnt')
+const myInfo = require('./myinfo');
+
 const sessions = require('./SessionGenarator')
 const requestmail = require('./requestmailexcel')
 const { randomBytes } = require('crypto');
@@ -30,8 +29,7 @@ router.use('/user',user);
 router.use('/mypolls',mypolls);
 router.use('/requestgangePass',changapassRequest)
 router.use('/myInfo',myInfo);
-//router.use('/QuestionMangment',QuestionsMangment)
-//router.use('/options',options)
+
 router.use('/GenarateSessionLinks',sessions)
 router.use('/getStats',getstats)
 router.use('/requestExcel',requestmail)
