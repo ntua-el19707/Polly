@@ -1,6 +1,7 @@
 const sequelize = require('../../utils/database');
 var initModels = require("../../models/init-models");
 const { where } = require('sequelize');
+const { getTitle } = require('../../utils/lib/surveys/PollLib');
 //const chalk = require('chalk');
 var models = initModels(sequelize);
 
@@ -64,9 +65,9 @@ exports.getstats  = (req,res,next)=>{
 
 
         })
-
-        Promise.all([find_questions]).then(() =>{
-
+        let title; 
+        Promise.all([find_questions,getTitle(pid)]).then((rsp) =>{
+           title = rsp[1];
            console.log(statsq);
             //console.log(statsqq);
             //console.log(statsqtext);
@@ -344,7 +345,9 @@ exports.getstats  = (req,res,next)=>{
 
                                     aid:element.anssequence,
                                     atext:element.anstext,
-                                    percentage:per
+                                    percentage:per,
+                                    total:element.anspossible,
+                                    freq:element.ansfreq
 
                                 },...ansjson]
 
@@ -358,7 +361,7 @@ exports.getstats  = (req,res,next)=>{
 
                                 qID:statsqq[i],
                                 qtext:statsqtext[i],
-                                stats:ansjson
+                                Stats:ansjson
 
 
 
@@ -374,7 +377,7 @@ exports.getstats  = (req,res,next)=>{
 
                     console.log(json);
                     let rsp=[];
-                    rsp={questions:json}
+                    rsp={questions:json,title:title}
 
                 
 
