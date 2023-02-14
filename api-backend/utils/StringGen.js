@@ -27,8 +27,19 @@ exports.vaildPass = (pass,salt,hash) =>{
     }
     return false ;
 }
+function makeid(length) {
+  let result = '';
+  const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  const charactersLength = characters.length;
+  let counter = 0;
+  while (counter < length) {
+    result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    counter += 1;
+  }
+  return result;
+}
 exports.generateSessions = () =>{
-    return  crypto.randomBytes(parseInt(process.env.Session_size)).toString('HEX');
+    return  makeid(4);
 }
 function hash_pass(pass,salt){
     return crypto.pbkdf2Sync(pass,salt ,parseInt(process.env.Encrypt_iterations),parseInt(process.env.Hash_size),process.env.SH_Encypt).toString('hex')
