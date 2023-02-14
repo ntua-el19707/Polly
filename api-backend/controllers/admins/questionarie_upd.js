@@ -2,15 +2,17 @@ const sequelize = require('../../utils/database');
 const  initModels = require("../../models/init-models");
 const chalk = require('chalk');
 const { questionarieFormat, getqid, getaSequence,questionarieIdCheck } = require('../../utils/format');
+const { generateSessions } = require('../../utils/StringGen');
+const { saveme } = require('../../utils/lib/saveme');
 
 
 const models = initModels(sequelize);
 
 function get(type){
     if(type === 'FALSE'){
-        return false;
+        return 0;
     }
-    return true ;
+    return 1 ;
 }
 
  function updateeoption(o,id){
@@ -114,6 +116,9 @@ function create_n_options(options,poll_id,question_id){
 
 function createQuestionoptions(question,poll_id){
     return new Promise((resolve,reject)=>{
+        if(!question){
+            resolve()
+        }
         const size = question.length ; 
         let counter = 0 ;
         question.forEach((q)=>{
@@ -137,7 +142,7 @@ function createQuestionoptions(question,poll_id){
     let actual_id = -1; 
     let createQ = new Promise((resolve,reject) =>{
 
-    
+    console.log(get(question.required))
    models.Questions.create({qtext:question.qtext,sequence:getqid(question.qID),qtype:question.type, required:get(question.required),poll_id:id
     }).then((q) =>{
          actual_id  = q.dataValues.question_id ;
@@ -155,15 +160,17 @@ function createQuestionoptions(question,poll_id){
 }
 
  function create_n_questions(questions,id){
+
     return new Promise((resolve,reject) =>
     {
+    
     const size = questions.length ; 
     let counter = 0 ; 
     //console.log('to create')
     //console.log(questions)
    // console.log(questions)
     if(size=== 0){
-        //console.log('resolve')
+        console.log(chalk.green('resolve'))
         resolve();
     }
     let promsieCreatethemall = new Promise((resolve,reject)=>{
@@ -228,6 +235,9 @@ function updateQuestion (obj){
 function updateall(questions,id){
     return new Promise((resolve,reject)=>{
         const size = questions.length ;
+        if(size === 0){
+            resolve()
+        }
         let counter = 0 ; 
         let finsihAll = new Promise((resolve,reject)=>{
         questions.forEach((q)=>{
@@ -265,23 +275,7 @@ exports.updatequest =  (questions,id)=>{
     })
 }
 
-exports.realUpdate = (req,res,next)=>{
-    const id = parseInt(req.params.id) ; 
-    const Creator =  req.jwt.sub ; 
-    const old = req.body.oldq;
-    const newq = req.body.newq ;
-    let updateOld = new Promise((resolve,reject) =>{
-        updateall(old).then(()=>{
-            
-            resolve();})
-    })
-    let insertnew = new Promise((resolve,reject)=>{
-        create_n_questions(newq,id).then(()=>resolve());
-    })
-    Promise.all([updateOld,insertnew]).then(()=>{
-        res.status(200).json({msg:'ok'})
-    })
-}
+
 exports.createPoll = (poll) =>{
     return new Promise((resolve,reject) =>{ 
 
@@ -310,10 +304,17 @@ exports.testNewQUESTIONARIE = (questions,poll_id) =>{
 
 
 exports.postCreate  = (req,res,next) =>{
+    const random= generateSessions();
+    console.log(req.body)
+    const body = req.body
+     
+ 
     const pid = req.body.questionnaireID;
     const pTitle = req.body.questionnaireTitle;
     const keywords = req.body.keywords;
     let questions  = req.body.questions;
+    console.log(req.body)
+    saveme(body,`Senario${random}`).then(()=>{
     if(questionarieIdCheck(pid)){
         //error => not correct questionarie Id format
         res.status(400).json({err:'not correct Format of Questionarie ID ',hint:'*correct Format QQ{primary key int}'}) ;
@@ -326,10 +327,12 @@ exports.postCreate  = (req,res,next) =>{
             this.createPoll(poll).then((poll) =>{
                 const poll_id = poll.poll_id;
                 if(/*questionarieFormat(questions)*/ true){
-              
+                    if(!questions){
+                        res.status(200).json({msg:'pollCreated',poll_id:poll_id})
+                    }
                     create_n_questions(questions,poll_id).then((questionsnew)=>{
-                        createQuestionoptions(questionsnew,poll_id).then(()=>{
-                            res.status(200).json({msg:'pollCreated',poll_id:poll_id})
+                       Promise.all([ createQuestionoptions(questionsnew,poll_id),CreateKeywords(keywords,poll_id)]).then(()=>{
+                        res.status(200).json({msg:'pollCreated',poll_id:poll_id})
                         })
                     })
                 }else{
@@ -337,17 +340,33 @@ exports.postCreate  = (req,res,next) =>{
                 }
             })
         }
-    }
+    }})
 
 }
 exports.putupdate = (req,res,next) =>{
     const pid = req.params.id;
     const pTitle = req.body.questionnaireTitle;
-    const keywords = req.body.keywords;
+    let keywords = req.body.keywords;
+    if(!keywords){
+        keywords =[];
+    }
+    let upadateK= []; 
+    let createK =[]
+    const destroyK = req.body.destroy.keyword;    ;
+    keywords.forEach(k=>{
+        if(k.keyword_id){
+            upadateK = [...upadateK,k]
+        }
+        else{
+            createK = [...createK,k.keyword]
+        }
+    }
+    )
+ 
     const oldQ = req.body.oldq ;
     let newQ = req.body.newq ;
      const destroy = req.body.destroy
-    
+    //console.log(req.body)
     if(!pTitle){
         res.status(400).json({err:'not given questionnaireTitle'}) ;
     }else{
@@ -368,12 +387,18 @@ exports.putupdate = (req,res,next) =>{
                     })
                 })
               
-              Promise.all([createPromsie,updateall(oldQ,poll_id),updatePoll(poll)]).then(()=>{
+              Promise.all([CreateKeywords(createK,poll_id),UpateKeywords(upadateK,poll_id),createPromsie,updateall(oldQ,poll_id),updatePoll(poll)]).then(()=>{
                 //res.status(200).json({msg:'prosorino ok'});
-                Promise.all([updateAllQuestionOptions(oldQ,poll_id),updateAllQuestionOptions(newQ,poll_id)]).then(()=>{
+                Promise.all([destroyKeyword(destroyK),updateAllQuestionOptions(oldQ,poll_id),updateAllQuestionOptions(newQ,poll_id)]).then(()=>{
                     //res.status(200).json({msg:'prosorino ok'});
+                    console.log(destroy)
                     destroy_options(destroy.optId).then(()=>{
+                        
                         destroy_questions(destroy.qid).then(()=>{
+                          //  console.log('hi')
+                       //     console.log(keywords)
+                           // console.log(upadateK)
+                           // console.log(createK)
                             res.status(200).json({msg:'prosorino ok'});
                         })
                     })
@@ -463,6 +488,7 @@ function destroy_one_options(optId){
 
 function destroy_options(options){
     return new Promise((resolve,reject)=>{
+       
         const size = options.length ;
         if(size === 0 ){
             resolve();
@@ -481,18 +507,21 @@ function destroy_options(options){
 }
 function destroy_one(questionId){
     return new Promise((resolve,reject)=>{
+        console.log(chalk.green(`about to destroy ${questionId}`))
         models.Questions.destroy( {where: {
          question_id: questionId
        }}).then(()=>{
          resolve({msg:'ok'})
        }).catch(err=>{
          console.log(err)
+         console.log(chalk.red(err.toJSON()))
          resolve({err:err})
        })
      })
 }
 function destroy_questions(questions){
     return new Promise((resolve,reject)=>{
+    console.log(chalk.green(questions))
       const size = questions.length ;
       if(size ===0){
         resolve();
@@ -508,4 +537,123 @@ function destroy_questions(questions){
         })
       })
     })
+}
+function CreateKeywords(keywords,poll_id){
+    return new Promise((resolve,reject)=>{
+        if(!keywords){
+            resolve()
+        }
+        const size = keywords.length ; 
+        let counter =  0 ;
+        if(size === 0){
+            resolve();
+        }
+        keywords.forEach(k => {
+            models.keywords.create({poll_id:poll_id, keyword:k}).then(()=>{
+                ++counter ;
+                if(size === counter){
+                    resolve();
+                }
+            }).catch(err=>{
+                console.log(err);
+                resolve();
+            })
+        });
+
+    })
+}
+function UpateKeywords(keywords,poll_id){
+    return new Promise((resolve,reject)=>{
+        //console.log(chalk.green('here'))
+       // console.log(keywords)
+       if(!keywords){
+        resolve()
+       }
+        const size = keywords.length ; 
+        let counter =  0 ;
+        if(size === 0){
+            resolve();
+        }
+        keywords.forEach(k => {
+            models.keywords.update({poll_id:poll_id, keyword:k.keyword},{where:{ keyword_id:k.keyword_id
+
+            }}).then(()=>{
+                ++counter ;
+                if(size === counter){
+                    resolve();
+                }
+            }).catch(err=>{
+                console.log(err);
+                resolve();
+            })
+        });
+
+    })
+}
+function destroyKeyword(keywords){
+    return new Promise((resolve,reject)=>{
+        if(!keywords){
+            resolve()
+        }
+        const size = keywords.length ;
+        if(size === 0 ){
+            resolve();
+        }
+        let counter  = 0;  
+        keywords.forEach(k=>{
+            models.keywords.destroy({where:{keyword_id:k}}).then(()=>{
+                ++counter;
+                
+            }).catch(err=>{
+                ++counter ;
+                console.log(err);
+            }).finally(()=>{
+                if(counter === size ){
+                    resolve();
+                }
+            })
+        })
+    })
+}
+
+//due to weay to big payload  put  =>ca noit be  called from  fronetebnd probably in way to big post 
+//will have ythe a same promblem 
+//change  of txactic 
+// set multiple  reqeust from frontend ;
+//vuild smaller  controllers
+
+exports.putupdate2 =(req,res,next)=>{
+    
+    const pid = req.params.id;
+    const pTitle = req.body.questionnaireTitle;
+    let keywords = req.body.keywords;
+    if(!keywords){
+        keywords =[];
+    }
+    let upadateK= []; 
+    let createK =[]
+
+    keywords.forEach(k=>{
+        if(k.keyword_id){
+            upadateK = [...upadateK,k]
+        }
+        else{
+            createK = [...createK,k.keyword]
+        }
+    }
+    )
+    if(!isNaN(pid)){
+    const poll_id = parseInt(pid);
+    const poll = {pTitle:pTitle,author:req.jwt.sub,poll_id:poll_id}
+    Promise.all([CreateKeywords(createK,poll_id),UpateKeywords(upadateK,poll_id),updatePoll(poll)]).then(()=>{
+        res.status(200).json({msg:'ok'})
+
+    }).catch(err=>{
+        res.status(400).json({errmsg:err})
+    })
+}
+    else{
+        res.status(400).json({errmsg:'not integer poll id'})
+    }
+
 }
