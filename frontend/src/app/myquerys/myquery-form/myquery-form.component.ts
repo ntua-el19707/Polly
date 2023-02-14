@@ -223,9 +223,9 @@ return this.view;
        questionarie.newq = newq;
 
     }
-    if(newsurvey){
-      console.log(questionarie)
-        /*Promise.all([this.insertPromise(questionarie.newq),this.updatePromise(questionarie.oldq)]).then(()=>{
+    if(!newsurvey){
+      console.log(questionarie)/*
+        Promise.all([this.insertPromise(questionarie.newq),this.updatePromise(questionarie.oldq)]).then(()=>{
           this.handleOptions().then(()=>{
             console.log('ok')
            // this.destoyOptions().then(()=>{
