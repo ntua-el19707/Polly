@@ -8,35 +8,35 @@
 
 
 .text{
-  font-size: 25px;
+  font-size: 15px;
 }
 .charts{
   padding:10px;
-  font-size: 20px;
+  font-size: 15px;
  
   width:300px;
   height: 300px;
  
 
 }
-@media  (min-width: 400px) { 
+@media  (max-width: 400px) { 
 .charts{font-size: 80%;}
-.text{font-size: 70%;}
+.text{font-size: 50%;}
 
 }
 
 
 
-@media (min-width:600px){
+@media (max-width:600px){
   .charts {
     
     font-size: 100%;
 }
-   .text{font-size: 70%;}
+   .text{font-size: 60%;}
 
 
 }
-@media (min-width:1000px){
+@media (max-width:1000px){
   .charts {
     
     font-size: 100%;
