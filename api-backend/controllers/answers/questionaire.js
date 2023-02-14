@@ -4,6 +4,7 @@ var initModels = require("../../models/init-models");
 const e = require('express');
 const Questions = require('../../models/Questions');
 const chalk = require('chalk');
+require('custom-env').env('localhost'); 
 var models = initModels(sequelize);
 
 async function getSequence(id){
@@ -65,7 +66,11 @@ exports.getQuestionarie = (req,res,next) =>{
         console.log(questions)
         getQuestionsOptions(questions).then((questions)=>{
         rsp.questions = questions;
-    res.status(200).json(rsp)
+        getKeywords(poll_id).then((k=>{
+            rsp.keywords = k;
+            res.status(200).json(rsp)
+        }))
+   
         })
     })})
 
@@ -201,3 +206,58 @@ exports.testgetQuestions = (poll_id) =>{
     })
 
 }
+
+function getKeywords(poll_id){
+    return new Promise((resolve,reject)=>{
+        let rsp = [];
+        models.keywords.findAll({where:{poll_id:poll_id}}).then((keywords)=>{
+            keywords.forEach(k=>{
+                let key =k.dataValues;
+                rsp = [...rsp,{keyword:key.keyword,keyword_id:key.keyword_id}] 
+            })
+            resolve(rsp)
+        }).catch(err=>{
+            resolve([]);
+        })
+    })
+}
+exports.getQuestionairefunction = (poll_id) => {
+    return new Promise((resolve,reject)=>{
+        let rsp;
+    
+    let fetchpoll = new  Promise((resolve,reject)=>{
+        models.Polls.findByPk(poll_id).then((poll)=>{
+            let p = poll.dataValues;
+            rsp = {questionnaireID:`QQ${p.poll_id}`,questionnaireTitle:poll.title,creator:p.email,apid:poll_id,keywords:[],...rsp}
+            resolve();
+        }).catch(err =>{
+            console.log(err)
+            reject(err);
+        })
+    }).then(()=>{ 
+    
+    getQuestions(poll_id).then((questions) =>{
+        console.log(questions)
+        getQuestionsOptions(questions).then((questions)=>{
+        rsp.questions = questions;
+        getKeywords(poll_id).then((k=>{
+            rsp.keywords = k;
+            resolve(rsp);
+            //res.status(200).json(rsp)
+        })).catch(err=>{
+            reject(err)
+        })
+   
+        }).catch(err=>{
+            reject(err)
+        })
+    })}).catch(err=>{
+        reject(err)
+    }).catch(err=>{
+        reject(err)
+    })
+
+
+    })
+}
+//module.exports ={getQuestionairefunction}
