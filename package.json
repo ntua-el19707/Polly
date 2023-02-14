@@ -1,0 +1,11 @@
+{
+  "devDependencies": {
+    "concurrently": "^7.6.0"
+  },
+  "proxy": "http://localhost:9103",
+  "scripts": {
+    "client": "cd frontend && npm start",
+    "server": "cd api-backend  && npm start",
+    "dev": "concurrently \"npm run server\" \"npm run client\""
+    }
+}
