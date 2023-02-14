@@ -38,7 +38,7 @@ getQuestionairefunction(poll_id).then((poll)=>{
     let counter =0 ;
     let allAnswers =[]
      let organized= poll.questions;
-    // console.log(organized)
+    //console.log(organized)
     if(total ===0){
         resolve()
     }
@@ -48,7 +48,7 @@ getQuestionairefunction(poll_id).then((poll)=>{
     let answers = [] ;
   //  console.log(poll.questions.length )
     while(index < poll.questions.length){
-      
+        
 
             if(poll.questions[index].options.length === 1 ){
                 if(poll.questions[index].options[0].opttxt === "<open string>"){
@@ -67,11 +67,13 @@ getQuestionairefunction(poll_id).then((poll)=>{
             }
             answers.push({answer_id:poll.questions[index].options[answer].actual,question_id:poll.questions[index].actualid})
             //console.log(poll.questions[index].options[answer].nextqID)
+           // console.log({answer_id:poll.questions[index].options[answer].actual,question_id:poll.questions[index].actualid})
             index = getIndex(poll.questions[index].options[answer].nextqID,poll.questions.length)
           //  console.log(index)
             if(index >= poll.questions.length){
                 break;
             }
+            
         
         
     
@@ -106,22 +108,33 @@ getQuestionairefunction(poll_id).then((poll)=>{
          })
          rsp2.push({qid:o.qID,qtext:o.qtext,options:opj})
       })
+     // console.log(allAnswers)
       resolve({all:allAnswers,stats:rsp2})
     }
 }
-}).then((all)=>{
-  resolve(all)
 })
+}).then((all)=>{
+ // console.log(all)
+  resolve(all)
 })
 
 
 }
-const poll_id =17; 
-const total = 200 ;
-Promise.all([answer(poll_id,total),destroy_sesions(poll_id)]).then((rsp)=>{
+const poll_id =1; 
+const total = 2000 ;
+let rsp ;
+getQuestionairefunction(poll_id).then(poll=>{
+  rsp = bombAnswer(poll)
+  console.log(1)
+
+
+
+Promise.all([destroy_sesions(poll_id)]).then(()=>{
+    console.log(rsp)
   console.log(chalk.green(`Create stats for poll_id`))
-  const all = rsp[0].all
-  const stats = rsp[0].stats
+  const all = rsp.all
+
+  const stats = rsp.stats
   let sessions = [] ;
   for(let i =0 ; i<total;i++){
     sessions.push(generateSessions())
@@ -154,5 +167,88 @@ Promise.all([answer(poll_id,total),destroy_sesions(poll_id)]).then((rsp)=>{
    })
 }).catch(err=>{
   console.log(err)
-})
+})})
 
+function bombAnswer(poll){
+      let counter =0 ;
+      let rsp = {};
+    let allAnswers =[]
+     let organized= poll.questions;
+    //console.log(organized)
+    if(total ===0){
+        resolve()
+    }
+    //let allAnswers = [] ;
+    for(let i=0 ;i<total ;i++){
+    let index = 0 ;
+    let answers = [] ;
+  //  console.log(poll.questions.length )
+    while(index < poll.questions.length){
+        
+
+            if(poll.questions[index].options.length === 1 ){
+                if(poll.questions[index].options[0].opttxt === "<open string>"){
+                   
+                    answers.push( {opttxt:randomtext(15),question_id:poll.questions[index].actualid})
+                    index = getIndex(poll.questions[index].options[0].nextqID,poll.questions.length)
+                    continue ;
+                }
+            }
+            const answer = getRandomInt(poll.questions[index].options.length);
+            
+            if(!organized[index].options[answer].check){
+              organized[index].options[answer].check =1 ;
+            }else{
+              organized[index].options[answer].check =    organized[index].options[answer].check +1 ;
+            }
+            answers.push({answer_id:poll.questions[index].options[answer].actual,question_id:poll.questions[index].actualid})
+            //console.log(poll.questions[index].options[answer].nextqID)
+           // console.log({answer_id:poll.questions[index].options[answer].actual,question_id:poll.questions[index].actualid})
+            index = getIndex(poll.questions[index].options[answer].nextqID,poll.questions.length)
+          //  console.log(index)
+            if(index >= poll.questions.length){
+                break;
+            }
+            
+        
+        
+    
+          
+        
+    }
+    //console.log(answers)
+    ++counter;
+    allAnswers.push(answers)
+    if(counter === total){
+      let rsp2 = [] ; 
+      organized.forEach(o=>{
+       //  let item = {qid:o.qID,qtext:o.qtext}
+         let opj = [] ;
+         let totalch =0 ;
+         o.options.forEach(op=>{
+        
+           if(op.check){
+              totalch += op.check;
+           }
+         
+        })
+        if(totalch === 0){
+          tatalch=1;
+        }
+         o.options.forEach(op=>{
+           let percetage = null;
+            if(op.check){
+              percetage = (op.check/totalch)*100;
+            }
+            opj.push({aid:op.optID,opttxt:op.opttxt,percetage:percetage})
+         })
+         rsp2.push({qid:o.qID,qtext:o.qtext,options:opj})
+      })
+     // console.log(allAnswers)
+     rsp = {all:allAnswers,stats:rsp2}
+    }
+   
+
+  }
+  return rsp
+}
