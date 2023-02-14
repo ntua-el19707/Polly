@@ -9,8 +9,10 @@ const question = require('./question') ;
 const doanswer  = require('./doanswer'); 
 const getsessionanswers  = require('./getsessionanswers');
 const getquestionanswers  = require('./getquestionanswers');
-
+const doanswerfill = require('./anwerstats')
 router.use('/questionnaire',questionnaire);
 router.use('/question',question);
+router.use('/doanswer',doanswer)
+router.use('/fill',doanswerfill)
 //router.use('/')
 module.exports =router 
