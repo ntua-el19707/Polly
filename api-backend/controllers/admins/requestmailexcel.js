@@ -8,7 +8,7 @@ const { JSONToCSV } = require('../../utils/lib/jsontocsv');
 const {writeFileSync} = require('fs');
 const { generateSessions } = require('../../utils/StringGen');
 
-const XLSX = require('xlsx')
+
 const nodemailer = require("nodemailer");
         var models = initModels(sequelize);
         
