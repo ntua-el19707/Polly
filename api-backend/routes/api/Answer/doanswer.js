@@ -1,8 +1,11 @@
 const {Router} = require('express');
 const router = Router() ;
-const {doanswery} =require('../../../controllers/answers/doanswer')
-router.post('/:qqid/:qid/:session/:optionid', doanswery);
-//router.post('/:qqid/:qid/:session', doanswery);
+
+const {create} =require('../../../controllers/answers/doanswer')
+
+router.route('/:questionnaireID/:questionID/:session/:optionID').post(create);
+
+
 module.exports = router ;
 
 
