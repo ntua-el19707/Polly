@@ -23,6 +23,7 @@ module.exports = function(sequelize, DataTypes) {
     sequelize,
     tableName: 'report_answers',
     timestamps: false,
+    onDelete: 'CASCADE',
     indexes: [
       {
         name: "PRIMARY",

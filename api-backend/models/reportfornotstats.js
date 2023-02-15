@@ -31,6 +31,7 @@ module.exports = function(sequelize, DataTypes) {
     sequelize,
     tableName: 'reportfornotstats',
     timestamps: false,
+    onDelete: 'CASCADE',
     indexes: [
       {
         name: "PRIMARY",
