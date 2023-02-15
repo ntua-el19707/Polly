@@ -4,7 +4,7 @@ var initModels = require("../../models/init-models");
 const e = require('express');
 const Questions = require('../../models/Questions');
 const report_answers = require('../../models/report_answers');
-//const reportforstats = require('../../models/reportforstats');
+const reportforstats = require('../../models/reportforstats');
 
 const chalk = require('chalk');
 //const { doanswer } = require('../../routes/api/Answer/doanswer');
@@ -65,13 +65,19 @@ function enter_ans(rep_id, question_id, ans_id) {
     })
 } 
 
-exports.doanswery = (req,res,next) =>{
+exports.create = (req,res,next) =>{
+    console.log("in");
 
     //router.post('/:qqid/:qid/:session/:optionid', doanswer);
-    const poll_id = parseInt(req.params.qqid );
-    const question_id = parseInt(req.params.qid );
+    const poll_id = parseInt(req.params.questionnaireID );
+    const question_id = parseInt(req.params.questionID );
     const session = req.params.session;
-    const option_id = parseInt(req.params.optionid );
+    const option_id = parseInt(req.params.optionID );
+
+    console.log(poll_id);
+    console.log(question_id);
+    console.log(session);
+    console.log(option_id);
     let rep_id;
     let ans_id;
     let q_id;
