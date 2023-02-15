@@ -32,7 +32,7 @@ export class RegisterComponent implements OnInit {
     let user:Register = {user:this.registerForm.value.username,pass1:this.registerForm.value.pass1,pass2:this.registerForm.value.pass2};
     this.register.Register(user).subscribe(r =>{
       console.log(r)
-      this.login.setLocalStorage(r.critentials) 
+      this.login.setLocalStorage(r.user) 
       this.router.navigate(['/Myquerys'])
     },error =>{
       console.log(error)
