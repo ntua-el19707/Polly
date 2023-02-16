@@ -31,6 +31,24 @@ Commant Line Interface
     
     src: contains the implementation of the cli-client-commands
     
+      node ./index.js doanswer --questionnaireID 1 --questionID 2 --session aaaa --optionsID 2 --format json"
+      node ./index.js question --questionnaireID 1 --questionID 2 --format json
+      
+      node ./index.js questionnaire --questionnaireID 1 --format json
+      
+      node ./index.js getsessionanswers --questionnaireID 1 --sessionID aaaa --format json
+      
+      node ./index.js getquestionanswers --questionnaireID 1 --sessionID 2 --format json
+      
+      node ./index.js healthcheck --token token
+      
+      node ./index.js resetall --token 
+      
+      node ./index.js resetq --questionnaireID 1 --token token
+      
+      
+      
+      
     
  Frontend
   This folder contains all the files for the implementetion of the front end
