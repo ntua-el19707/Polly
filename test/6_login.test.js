@@ -7,15 +7,15 @@ const app = require('../api-backend/app');
 require('custom-env').env('localhost'); 
 
 const owner = {
-    "user": "aa",
+    "user": "victor0601@live.com",
     "pass": "12"
 }
 const validbody = {
     Login:owner
 }
 const ownerWrongPass = {
-    "yser": "madara@root.com",
-    "password": "123"    
+    "yser": "victor0601@live.com",
+    "password": "12345abc"    
 }
 const invalidbody = {
     Login:ownerWrongPass
