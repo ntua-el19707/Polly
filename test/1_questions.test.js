@@ -1,19 +1,19 @@
-/*const request = require('supertest');
+const request = require('supertest');
 const chai = require('chai')
 const expect = chai.expect;
 const app = require('../api-backend/app');
 require('custom-env').env('localhost'); 
 
-const valid_question_sequence = 146;
+const valid_question_sequence = 4;
 
-const invalid_question_sequence = 25;
+const invalid_question_sequence = 50;
 
-const valid_quesstionnaire_id = 26;
+const valid_quesstionnaire_id = 1;
 
-const invalid_quesstionnaire_id = 0;
+const invalid_quesstionnaire_id = 100;
 
 let response;
-/* Test cost, energy totals for valid months
+
 describe('Test if question and questionnaire ID are valid (Get Request: {baseurl}/question/:questionnaireID/:questionID)', () => {
     it('Should return totals with status 200', (done) => {
         request(app)
@@ -28,16 +28,17 @@ describe('Test if question and questionnaire ID are valid (Get Request: {baseurl
   
 });
 
+
 describe('Test if question and questionnaire ID are valid (Get Request: {baseurl}/question/:questionnaireID/:questionID)', () => {
-    it('Should return totals with status 200', (done) => {
+    it('Should return totals with status 400', (done) => {
         request(app)
         .get('/inteliq_api/question/' + invalid_quesstionnaire_id + '/' + invalid_question_sequence)
         .end((err, res) => {
             response = res.body;
-            expect(res.status).to.eq(200);
+            expect(res.status).to.eq(400);
             done()
         })
         })
 
    
-});*/
+});

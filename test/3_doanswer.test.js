@@ -7,15 +7,15 @@ require('custom-env').env('localhost');
 
 const valid_quesstionnaire_id = 1;
 
-const invalid_quesstionnaire_id = 100;
+const invalid_quesstionnaire_id = 300;
 
 const valid_session = "aaaa";
 
 const invalid_session = "aa";
 
-const valid_question_id = 2;
+const valid_question_id = 4;
 
-const invalid_question_id = 100;
+const invalid_question_id = 300;
 
 const valid_option_id = 2;
 

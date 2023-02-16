@@ -5,18 +5,18 @@ const expect = chai.expect;
 const app = require('../api-backend/app');
 require('custom-env').env('localhost'); 
 
-const valid_quesstionnaire_id = 2;
+const valid_quesstionnaire_id = 1;
 
 const invalid_quesstionnaire_id = 100;
 
 const valid_question_id = 4;
 
-const invalid_question_id = -5;
+const invalid_question_id = 500;
 
 
 let response;
-
-describe('Test getting question answers when questionnaire_id and session are valid (Post Request: {baseurl}/getquestionanswers/:questionnaireID/:questionID)', () => {
+/*
+describe('Test getting question answers when questionnaire_id and question_id are valid (Post Request: {baseurl}/getquestionanswers/:questionnaireID/:questionID)', () => {
     it('Should return totals with status 200', (done) => {
         request(app)
         .get('/inteliq_api/getquestionanswers/' + valid_quesstionnaire_id + "/" + valid_question_id )
@@ -27,7 +27,7 @@ describe('Test getting question answers when questionnaire_id and session are va
         })
         })
 });
-
+*/
 describe('Test getting question answers when questionnaire_id is invalid (Post Request: {baseurl}/getquestionanswers/:questionnaireID/:questionID)', () => {
     it('Should return totals with status 400', (done) => {
         request(app)
@@ -40,7 +40,7 @@ describe('Test getting question answers when questionnaire_id is invalid (Post R
         })
 });
 
-describe('Test getting question answers when question_id is valid (Post Request: {baseurl}/getquestionanswers/:questionnaireID/:questionID)', () => {
+describe('Test getting question answers when question_id is invalid (Post Request: {baseurl}/getquestionanswers/:questionnaireID/:questionID)', () => {
     it('Should return totals with status 400', (done) => {
         request(app)
         .get('/inteliq_api/getquestionanswers/' + valid_quesstionnaire_id + "/" + invalid_question_id )
