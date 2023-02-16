@@ -49,9 +49,9 @@ export class ChartComponent implements OnInit {
       '#80FF00',//1
       '#ff00ff',
       '#00ff80',//3
-      '#0000ff',
+      '#00ffff',
       '#0080ff',//5
-      '#00ffff',//6
+      '#0000ff',//6
       '#7f00ff',//7
       '#00ff00',//8
       '#ff007f',//9
