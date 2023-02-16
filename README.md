@@ -1,14 +1,22 @@
-Software Engineering
+# **Software Engineering**
 
-Title: POLLY
+## Title: POLLY
 
-Tools Used:
+## **Tools Used:**
 
 MySql - Sequelize for the Datebase
 
+NodeJs - Express for the Backend
+
+Angular for the FrontEnd
+
+Javascript for the CLI
+
+Mocha - Chai - SuperTest for the Testing
 
 
-Api-Backend
+
+## Api-Backend
 
   This folder contains: 
 
@@ -23,7 +31,7 @@ Api-Backend
     utils: contains supportive functions for the back-end implementation. All files can use these functions
 
   
-Commant Line Interface
+## Commant Line Interface
   
   This folder contains:
     
@@ -51,19 +59,19 @@ Commant Line Interface
       
       
     
- Frontend
+ ## Frontend
   This folder contains all the files for the implementetion of the front end
   For the front end we use Angular
  
  
- Test
+ ## Test
   
    This folder contains:
    
     Testing for api-backend 
     Testing for cli-client
     
-  VPP
+  ## VPP
     This folder contains:
        SRS Document
        VPP File with all the UML Diagrams
