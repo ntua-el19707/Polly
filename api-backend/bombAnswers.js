@@ -120,7 +120,7 @@ getQuestionairefunction(poll_id).then((poll)=>{
 
 
 }
-const total = 1000 ;
+const total = 100 ;
 function put1000(poll){
 const poll_id =poll; 
 
@@ -171,7 +171,7 @@ Promise.all([destroy_sesions(poll_id)]).then(()=>{
   console.log(err)
 })})
 }
-put1000(1)
+put1000(parseInt(process.argv[2]))
 function bombAnswer(poll){
       let counter =0 ;
       let rsp = {};
