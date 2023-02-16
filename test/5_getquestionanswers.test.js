@@ -15,7 +15,7 @@ const invalid_question_id = 500;
 
 
 let response;
-/*
+
 describe('Test getting question answers when questionnaire_id and question_id are valid (Post Request: {baseurl}/getquestionanswers/:questionnaireID/:questionID)', () => {
     it('Should return totals with status 200', (done) => {
         request(app)
@@ -27,7 +27,7 @@ describe('Test getting question answers when questionnaire_id and question_id ar
         })
         })
 });
-*/
+
 describe('Test getting question answers when questionnaire_id is invalid (Post Request: {baseurl}/getquestionanswers/:questionnaireID/:questionID)', () => {
     it('Should return totals with status 400', (done) => {
         request(app)
