@@ -19,7 +19,7 @@
     "test":  "nodemon --exec mocha test/**.test.js",
     "start": "nodemon server.js",
     "installALL":"(cd frontend && npm install);(cd api-backend  && npm install);npm install",
-    "cpenv":"cp ../../3/SoftEng22-54/api-backend/.env.localhost api-backend;cp ../../3/SoftEng22-54/api-backend/.env.localhost test;cd ..;cp ../../3/SoftEng22-54/api-backend/.env.localhost  SoftEng22-54 "
+    "cpenv":"cp ../../3/SoftEng22-54/api-backend/.env.localhost api-backend;cp ../../3/SoftEng22-54/api-backend/.env.localhost test;cd ..;cp ../3/SoftEng22-54/api-backend/.env.localhost  SoftEng22-54 "
     
     },
     "dependencies": {
