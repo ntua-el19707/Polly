@@ -37,7 +37,7 @@ export class NavBarComponent  implements OnInit{
       this.routesVertical =  [{path:'/Myquerys',display:'FormBulder'},{path:'MyInfo',display:'MyInfo'}] 
     this.logoutb =true;
     }else{
-      this.routesVertical =  [{path:'/login',display:'login'},{path:'/register',display:'Register'},{path:'/query/1',display:'Query'}] 
+      this.routesVertical =  [{path:'/login',display:'login'},{path:'/register',display:'Register'}] 
      this.logoutb = false;
     }
   }
