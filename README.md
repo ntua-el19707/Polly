@@ -6,9 +6,9 @@
 
 MySql - Sequelize for the Datebase
 
-NodeJs - Express for the Backend
+NodeJS - Express for the Backend
 
-Angular for the FrontEnd
+Angular for the Frontend
 
 Javascript for the CLI
 
