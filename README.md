@@ -2,7 +2,7 @@
 
 ## Title: POLLY
 
-## **Tools Used:**
+### **Tools Used:**
 
 MySql - Sequelize for the Datebase
 
@@ -16,7 +16,7 @@ Mocha - Chai - SuperTest for the Testing
 
 
 
-## Api-Backend
+### Api-Backend
 
   This folder contains: 
 
@@ -31,7 +31,7 @@ Mocha - Chai - SuperTest for the Testing
     utils: contains supportive functions for the back-end implementation. All files can use these functions
 
   
-## Commant Line Interface
+### Commant Line Interface
   
   This folder contains:
     
@@ -59,19 +59,19 @@ Mocha - Chai - SuperTest for the Testing
       
       
     
- ## Frontend
+ ### Frontend
   This folder contains all the files for the implementetion of the front end
   For the front end we use Angular
  
  
- ## Test
+ ### Test
   
    This folder contains:
    
     Testing for api-backend 
     Testing for cli-client
     
-  ## VPP
+  ### VPP
     This folder contains:
        SRS Document
        VPP File with all the UML Diagrams
