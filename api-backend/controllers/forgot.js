@@ -58,8 +58,8 @@ exports.forgot = (req,res,next) =>{
                 let sendDataPromise  = new Promise((resolve,reject) =>{
                     
                     
-                    resolve()
-                   /*Trasporter.sendMail({
+                    
+                   Trasporter.sendMail({
                         from:data.from,
                         to:data.to,
                         subject:data.subject,
@@ -70,7 +70,7 @@ exports.forgot = (req,res,next) =>{
                         console.log(err)
                         erroroccurs = true ; 
                         resolve()
-                    })*/
+                    })
                 })
                 console.log(data)
                 Promise.all([sendDataPromise]).then(() =>{
